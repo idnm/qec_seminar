@@ -1,0 +1,63 @@
+\documentclass[12 pt]{article}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{empheq}
+\usepackage[sort&compress,numbers]{natbib}
+\usepackage{doi}
+\usepackage{esvect}
+\usepackage{cancel}
+\usepackage{braket}
+\usepackage{hyperref}
+\hypersetup{
+	colorlinks   = true, %Colours links instead of ugly boxes
+	urlcolor     = blue, %Colour for external hyperlinks
+	linkcolor    = blue, %Colour of internal links
+	citecolor   = red %Colour of citations
+}
+
+\textheight 23cm
+\textwidth 18cm
+\voffset=-1.2in
+\hoffset= - 0.9in         
+
+\begin{document}
+\section{Classical linear codes 15.07.22}
+\subsection{Repetition code}
+Repetition code. Encoding
+\begin{align}
+0\to000, 1\to111
+\end{align}
+Decoding: majority vote, e.g. $010\to0, 011\to1$. Succeeds when 0 or 1 bit is flipped, fails when 2 or 3 bits are flipped. Error probability is reduced from $p$ to $3p^2$ (for $p\ll1$).
+\subsection{Linear codes}
+Repetition code is an example of a linear code. A linear code $(n, k, d)$ is defined by a generator matrix $G$ of size $k\times n$ and a parity check matrix $H$ of size $(n-k)\times n$. Code subspace is $bG$, for all $k$-bitstrings $b$. Alternatively, code supspace consists of all $n$-bitstings $b'$ satisfying $H(b')^T=0$. For the repetition code
+\begin{align}
+G=\begin{pmatrix}1&1&1\end{pmatrix},\quad H=\begin{pmatrix}1&1&0\\0&1&1\end{pmatrix},\qquad H^T G=0
+\end{align}
+\subsection{Code distance}
+Code distance is the minimum Hamming distance between any two code words. For a linear code, code distance is the minimum (non-zero) weight of $n$-bitstrings in the code space. For the repetition code $d=3$. A code that can correct $t$ errors has distance $d=2t+1$.
+\subsection{Dual code}
+For a linear code with generator matrix $G$ and parity check matrix $H$ the dual code is another linear code with $G$ and $H$ swapped $G^{\perp}=H, H^{\perp}=G$. For the dual repetition code
+\begin{align}
+G=\begin{pmatrix}1&1&0\\0&1&1\end{pmatrix},\qquad H=\begin{pmatrix}1&1&1\end{pmatrix},\quad H^TG=0
+\end{align}
+Dual repetition code encodes 2 bits into 3 bits
+\begin{align}
+00\to 000\\
+01\to 011\\
+10\to 110\\
+11\to 101
+\end{align}
+Distance of the code is 2. It can detect one error, but correct none.
+\subsection{Hamming bound}
+"Good enough" codes exist. Encoding $k$-bitstrings and being able to correct $t$ errors (distance at least $d\ge2t+1$) requires the embedding space to have dimension at least $n$
+\begin{align}
+2^n\ge 2^k \sum_{i=0}^t C_{n}^i
+\end{align}
+\subsection{Gilbert–Varshamov bound}
+Codes need not be "too bad". Given $n$ physical bits a code  with distance $d$ exists encoding $k$ logical bits with
+\begin{align}
+2^k\ge \frac{2^n}{\sum_{i=0}^{d-1} C_{n}^i}
+\end{align}
+\end{document}
