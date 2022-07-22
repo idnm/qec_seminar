@@ -23,6 +23,7 @@
 \hoffset= - 0.9in         
 
 \begin{document}
+\tableofcontents
 \section{Classical linear codes 15.07.22}
 \subsection{Repetition code}
 Repetition code. Encoding
@@ -51,13 +52,60 @@ Dual repetition code encodes 2 bits into 3 bits
 \end{align}
 Distance of the code is 2. It can detect one error, but correct none.
 \subsection{Hamming bound}
-"Good enough" codes exist. Encoding $k$-bitstrings and being able to correct $t$ errors (distance at least $d\ge2t+1$) requires the embedding space to have dimension at least $n$
+Codes can not be "too good". Encoding $k$-bitstrings into $n$-bitstrings and being able to correct $t$ errors (distance at least $d\ge2t+1$) requires the embedding space to have dimension at least
 \begin{align}
 2^n\ge 2^k \sum_{i=0}^t C_{n}^i
 \end{align}
 \subsection{Gilbert–Varshamov bound}
-Codes need not be "too bad". Given $n$ physical bits a code  with distance $d$ exists encoding $k$ logical bits with
+"Good enough" codes exist. Given $n$ physical bits a code with distance $d$ exists encoding $k$ logical bits with
 \begin{align}
 2^k\ge \frac{2^n}{\sum_{i=0}^{d-1} C_{n}^i}
 \end{align}
+
+\section{Quantum repetition code and first look at stabilizer formalism 22.06.2022}
+\subsection{Quantum repetition code}
+Encoding
+\begin{align}
+|0\rangle\to \bar{|0\rangle}=|000\rangle, \qquad |1\rangle\to\bar{|1\rangle}\to |111\rangle, \qquad \alpha|0\rangle+\beta |1\rangle\to\alpha\bar{|0\rangle}+\beta\bar{|1\rangle}
+\end{align}
+\textit{Exercise}: find a unitary quantum circuit that performs the encoding starting from the state $(\alpha|0\rangle+\beta|1\rangle)\otimes|0\rangle\otimes|0\rangle$.
+\subsection{X errors}
+Correctable errors: $X_1, X_2, X_3$:
+\begin{align}
+X_1|000\rangle=|100\rangle,\quad X_1|111\rangle=|011\rangle,\quad \dots
+\end{align}
+\subsection{Syndromes}
+Measuring $Z_1Z_2$, $Z_2Z3$ gives syndromes. For correctable errors syndromes are
+
+\begin{tabular}{lll}
+	& $Z_1 Z_2$ & $Z_2 Z_3$ \\ \hline
+	Id   & 1         & 1         \\ \hline
+	$X_1$ & -1        & 1         \\ \hline
+	$X_2$ & -1        & -1       \\ \hline
+	$X_3$ & 1         & -1       
+\end{tabular}
+
+\textit{Excercise}: find syndromes of other errors, e.g. $X_1X_2$ or even $Y_1 Z_3$.
+
+\subsection{Measurement}
+Measuring $Z$ in state $\alpha|0\rangle+\beta|1\rangle$ gives +1 with probability $|\alpha|^2$ and post-measurement state $|0\rangle$ or $-1$ with probability $|\beta|^2$ and post-measurement state $|1\rangle$. 
+
+\textit{Exercise}: find values, probabilities and post-measurement states of $Z_1 Z_3$ performed on $\alpha|100\rangle+\beta|011\rangle$. What about, say, $X_1$?
+\subsection{Necessary and sufficient conditions for error correction}
+
+Let $\{|\bar{i}\rangle\}$ be the code space and $\{E_\alpha\}$ the set of errors. The code can correct these errors iff
+\begin{align}
+\braket{\bar{i}|E^\dagger_\beta E_\alpha|\bar{j}}=0,\qquad i\neq j\\
+\braket{\bar{i}|E^\dagger_\beta E_\alpha|\bar{i}}=C_{\alpha\beta} \quad\text{independent of $i$}
+\end{align}
+The first condition means no errors can make different logical states overlap (otherwise they could be confused and the errors could not be corrected). The second means that confusing different errors acting on the same state is fine, as long as the correction procedure works identically on all logical states.
+\subsection{Shor's code}
+Shor's code can correct both $X$ and $Z$ single-qubit errors. It uses 5 qubits. Encoding
+\begin{align}
+|\bar{0}\rangle=(|000\rangle+|111\rangle)(|000\rangle+|111\rangle)(|000\rangle+|111\rangle)\\
+|\bar{1}\rangle=(|000\rangle-|111\rangle)(|000\rangle-|111\rangle)(|000\rangle-|111\rangle)
+\end{align}
+\textit{Exercise}: propose a syndrome measurement that diagnoses $X_1$ error and a syndrome that diagnoses $Z_1$ error without destroying superposition $\alpha|\bar{0}\rangle+\beta|\bar{1}\rangle$.
+
+
 \end{document}
