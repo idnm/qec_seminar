@@ -110,5 +110,34 @@ Shor's code can correct both $X$ and $Z$ single-qubit errors. It uses 5 qubits. 
 \end{align}
 \textit{Exercise}: propose a syndrome measurement that diagnoses $X_1$ error and a syndrome that diagnoses $Z_1$ error without destroying superposition $\alpha|\bar{0}\rangle+\beta|\bar{1}\rangle$.
 
+\section{General properties of stabilizer codes 29.06.2022}
+\subsection{Errors from syndromes}
+Recall the repetition code and assume that after an error measuring syndromes gives $Z_1Z_2=1$, $Z_2Z_3=-1$. What was the error? The error was $X_3$. Indeed, before error $Z_1Z_2|\psi\rangle=1, Z_2Z_3|\psi\rangle=1$ and after error $Z_1Z_2X_3|\psi\rangle=|\psi\rangle, Z_2Z_3X_3|\psi\rangle=-X_3|\psi\rangle$. We can in fact exlude $|\psi\rangle$ from this equation by noting that $X_3$ is the unique error (among correctable ones) that commutes with $Z_1Z_2$ and anticommutes with $Z_2Z_3$. In general, when there are $n$ stabilizers $S_1,\dots, S_n$ and syndrome is $s_1,\dots,s_n$ where $s_i=\pm$ our error $E$ (which may not be unique) is the one that satisfies $E S_i=s_i S_i E$.
+\subsection{Construct code subspace from stabilizers}
+If $S_1,\dots,S_n$ is the full set of stabilizers state of the form
+\begin{align}
+|\bar{\psi}\rangle=\sum_{i=0}^n S_i |\psi\rangle
+\end{align}
+is in code space since $S_j|\bar{\psi}\rangle=|\bar{\psi}\rangle$ for any $S_j$. Another way to obtain this state is to take a product of projectors
+\begin{align}
+|\bar{\psi}\rangle=\prod_{g}\frac{1+S_g}{2} |\psi\rangle
+\end{align}
+where sum is not over the \textit{generators} of the stabilizer, and not all of the stabilizer group.
+\subsection{Pauli strings symplectic representation}
+Any Pauli string can be written as follows
+\begin{align}
+P =\pm Z_1^{\alpha_1}\dots Z_n^{\alpha_n} X_1^{\beta_1}\dots X_n^{\beta_n} =\pm Z^{\alpha} X^\beta= (\alpha|\beta)
+\end{align}
+Product
+\begin{align}
+(\alpha_1|\beta_1)(\alpha_2|\beta_2)=(-)^{\beta_1\alpha_2}(\alpha_1+\alpha_2|\beta_1+\beta_2)
+\end{align}
+Commutation relations 
+\begin{align}
+P_1 P_2 = (-)^{\alpha_1\beta_2-\beta_2\alpha_1}P_2P_1
+\end{align}
+\subsection{Structure of code}
+For an $[[n, k, d]]$ stabilizer the group of all Pauli strings of dimension $4^n$ is divided into (1) Stabilizer space with $n-k$ generators, where all operators commute with each other (2) Space of logical operators with $2k$ generators, which commute with stabilizers but may anticommute with each other and (3) Operators which anticommute with at leas one stabilizer (those are detectable errors) with $d$ generators.
 
+\textit{Exercise}: $d=?$
 \end{document}
